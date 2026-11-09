@@ -1,22 +1,299 @@
+
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:MyAvaloniaApp.ViewModels"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MyAvaloniaApp.Views.MainWindow"
         x:DataType="vm:MainViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="MyAvaloniaApp">
+        Title="AeroBase — Реестр БПЛА"
+        Width="1100"
+        Height="720"
+        MinWidth="850"
+        MinHeight="600"
+        Background="#F3F6FB">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainViewModel />
-    </Design.DataContext>
+    <Grid ColumnDefinitions="194,*">
 
-    <TextBox Text="{Binding Greeting}"
-             HorizontalAlignment="Center"
-             VerticalAlignment="Center" />
+        <!-- Боковая панель -->
+        <Border Grid.Column="0" Background="#192D49">
+            <Grid RowDefinitions="Auto,*,Auto">
 
+                <StackPanel Margin="25,25,15,30" Spacing="5">
+                    <TextBlock Text="✈ AeroBase"
+                               Foreground="White"
+                               FontSize="25"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="УЧЕБНАЯ ЛАБОРАТОРИЯ"
+                               Foreground="#8EA5C3"
+                               FontSize="9"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Margin="12,0" Spacing="9">
+                    <Button Content="Обзор"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Foreground="#D5DFED"
+                            Padding="15,12"
+                            BorderThickness="0"/>
+
+                    <Button Content="Реестр БПЛА"
+                            HorizontalContentAlignment="Left"
+                            Background="#294B73"
+                            Foreground="White"
+                            Padding="15,12"
+                            BorderThickness="0"
+                            FontWeight="Bold"/>
+
+                    <Button Content="Комплектующие"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Foreground="#D5DFED"
+                            Padding="15,12"
+                            BorderThickness="0"/>
+
+                    <Button Content="Обслуживание"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Foreground="#D5DFED"
+                            Padding="15,12"
+                            BorderThickness="0"/>
+
+                    <Button Content="Правила"
+                            HorizontalContentAlignment="Left"
+                            Background="Transparent"
+                            Foreground="#D5DFED"
+                            Padding="15,12"
+                            BorderThickness="0"/>
+                </StackPanel>
+
+                <TextBlock Grid.Row="2"
+                           Text="AeroBase v1.0"
+                           Foreground="#8297B2"
+                           Margin="25,15"
+                           FontSize="11"/>
+            </Grid>
+        </Border>
+
+        <!-- Основная область -->
+        <ScrollViewer Grid.Column="1"
+                      VerticalScrollBarVisibility="Auto">
+
+            <StackPanel Margin="30" Spacing="22">
+
+                <!-- Заголовок -->
+                <Grid ColumnDefinitions="*,Auto">
+
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="Реестр БПЛА"
+                                   FontSize="29"
+                                   FontWeight="Bold"
+                                   Foreground="#1B2D45"/>
+
+                        <TextBlock Text="Оборудование учебной лаборатории"
+                                   FontSize="13"
+                                   Foreground="#73839B"/>
+                    </StackPanel>
+
+                    <Button Grid.Column="1"
+                            Content="+ Добавить БПЛА"
+                            Background="#2864EA"
+                            Foreground="White"
+                            FontWeight="Bold"
+                            Padding="18,12"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            CornerRadius="6"/>
+                </Grid>
+
+                <!-- Статистика -->
+                <Grid ColumnDefinitions="*,*,*"
+                      ColumnSpacing="14">
+
+                    <Border Background="White"
+                            CornerRadius="9"
+                            Padding="20"
+                            BorderBrush="#E1E8F1"
+                            BorderThickness="1">
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Всего БПЛА"
+                                       Foreground="#718198"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="{Binding TotalCount}"
+                                       FontSize="27"
+                                       FontWeight="Bold"
+                                       Foreground="#243750"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1"
+                            Background="White"
+                            CornerRadius="9"
+                            Padding="20"
+                            BorderBrush="#E1E8F1"
+                            BorderThickness="1">
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="Исправные"
+                                       Foreground="#718198"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="{Binding WorkingCount}"
+                                       FontSize="27"
+                                       FontWeight="Bold"
+                                       Foreground="#11966B"/>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="2"
+                            Background="White"
+                            CornerRadius="9"
+                            Padding="20"
+                            BorderBrush="#E1E8F1"
+                            BorderThickness="1">
+
+                        <StackPanel Spacing="10">
+                            <TextBlock Text="На обслуживании"
+                                       Foreground="#718198"
+                                       FontSize="12"/>
+
+                            <TextBlock Text="{Binding ServiceCount}"
+                                       FontSize="27"
+                                       FontWeight="Bold"
+                                       Foreground="#D28A24"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+
+                <!-- Таблица -->
+                <Border Background="White"
+                        CornerRadius="10"
+                        Padding="15"
+                        BorderBrush="#E1E8F1"
+                        BorderThickness="1">
+
+                    <StackPanel Spacing="15">
+
+                        <Grid ColumnDefinitions="*,220">
+
+                            <TextBlock Text="Список аппаратов"
+                                       FontSize="16"
+                                       FontWeight="Bold"
+                                       Foreground="#263950"
+                                       VerticalAlignment="Center"/>
+
+                            <TextBox Grid.Column="1"
+                                     PlaceholderText="Поиск по названию..."
+                                     Padding="10,8"
+                                     BorderBrush="#D9E2EF"
+                                     Background="White"
+                                     CornerRadius="5"/>
+                        </Grid>
+
+                        <!-- Заголовки таблицы -->
+                        <Border Background="#EAF1FA"
+                                CornerRadius="4"
+                                Padding="8">
+
+                            <Grid ColumnDefinitions="2*,1.4*,2*,1.7*">
+
+                                <TextBlock Text="Название"
+                                           FontWeight="Bold"
+                                           FontSize="12"
+                                           Foreground="#29415F"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Text="Номер"
+                                           FontWeight="Bold"
+                                           FontSize="12"
+                                           Foreground="#29415F"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="Тип"
+                                           FontWeight="Bold"
+                                           FontSize="12"
+                                           Foreground="#29415F"/>
+
+                                <TextBlock Grid.Column="3"
+                                           Text="Состояние"
+                                           FontWeight="Bold"
+                                           FontSize="12"
+                                           Foreground="#29415F"/>
+                            </Grid>
+                        </Border>
+
+                        <!-- Список БПЛА -->
+                        <ItemsControl ItemsSource="{Binding FilteredDrones}">
+
+                            <ItemsControl.ItemTemplate>
+
+                                <DataTemplate x:DataType="vm:DroneItem">
+
+                                    <Border BorderBrush="#E1E7EF"
+                                            BorderThickness="0,0,0,1"
+                                            Padding="8,12">
+
+                                        <Grid ColumnDefinitions="2*,1.4*,2*,1.7*">
+
+                                            <TextBlock Text="{Binding Name}"
+                                                       FontSize="12"
+                                                       Foreground="#263950"
+                                                       VerticalAlignment="Center"/>
+
+                                            <TextBlock Grid.Column="1"
+                                                       Text="{Binding Number}"
+                                                       FontSize="12"
+                                                       Foreground="#263950"
+                                                       VerticalAlignment="Center"/>
+
+                                            <TextBlock Grid.Column="2"
+                                                       Text="{Binding Type}"
+                                                       FontSize="12"
+                                                       Foreground="#263950"
+                                                       VerticalAlignment="Center"/>
+
+                                            <TextBlock Grid.Column="3"
+                                                       Text="{Binding Status}"
+                                                       FontSize="12"
+                                                       FontWeight="Bold"
+                                                       Foreground="{Binding StatusColor}"
+                                                       VerticalAlignment="Center"/>
+
+                                        </Grid>
+                                    </Border>
+
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <TextBlock Text="Демонстрационный реестр. Данные представлены для примера."
+                                   Foreground="#718198"
+                                   FontSize="12"
+                                   Margin="0,5,0,0"/>
+
+                        <!-- Кнопки -->
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+
+                            <Button Content="Изменить"
+                                    Background="#EAF1FC"
+                                    Foreground="#2856A0"
+                                    Padding="15,9"
+                                    BorderThickness="0"
+                                    CornerRadius="5"/>
+
+                            <Button Content="Удалить"
+                                    Background="#FFF0F0"
+                                    Foreground="#C43C3C"
+                                    Padding="15,9"
+                                    BorderThickness="0"
+                                    CornerRadius="5"/>
+
+                        </StackPanel>
+
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Window>
