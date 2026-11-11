@@ -1,0 +1,47 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MyAvaloniaApp.ViewModels"
+        x:Class="MyAvaloniaApp.Views.DroneEditWindow"
+        x:DataType="vm:DroneEditViewModel"
+        Title="{Binding Title}"
+        Width="420" Height="380"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Background="#F3F6FB">
+
+    <StackPanel Margin="25" Spacing="14">
+        <TextBlock Text="{Binding Title}" FontSize="20" FontWeight="Bold" Foreground="#1B2D45"/>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Название" FontSize="12" Foreground="#718198"/>
+            <TextBox Text="{Binding Name}" Padding="10,8"/>
+        </StackPanel>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Номер" FontSize="12" Foreground="#718198"/>
+            <TextBox Text="{Binding Number}" Padding="10,8"/>
+        </StackPanel>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Тип" FontSize="12" Foreground="#718198"/>
+            <ComboBox SelectedItem="{Binding Type}" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="Квадрокоптер"/>
+                <ComboBoxItem Content="Самолётный"/>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Spacing="4">
+            <TextBlock Text="Состояние" FontSize="12" Foreground="#718198"/>
+            <ComboBox SelectedItem="{Binding Status}" HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="Исправен"/>
+                <ComboBoxItem Content="На ТО"/>
+            </ComboBox>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <Button Content="Отмена" Command="{Binding CancelCommand}" Padding="15,9"/>
+            <Button Content="Сохранить" Command="{Binding SaveCommand}"
+                    Background="#2864EA" Foreground="White" Padding="15,9"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
