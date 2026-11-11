@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             panelSidebar = new Panel();
             btnRules = new Button();
             btnMaintenance = new Button();
@@ -38,16 +38,23 @@
             lblLogo = new Label();
             panelMain = new Panel();
             panel6 = new Panel();
+            label6 = new Label();
+            label5 = new Label();
+            label4 = new Label();
+            label3 = new Label();
+            label2 = new Label();
+            label1 = new Label();
+            txtStatus = new TextBox();
+            txtInventoryNumber = new TextBox();
+            txtType = new TextBox();
+            txtModel = new TextBox();
+            txtName = new TextBox();
+            txtId = new TextBox();
             btnDeleteDrone = new Button();
-            btnEditDrone = new Button();
             lblChoose = new Label();
             txtSearch = new TextBox();
             lblList = new Label();
-            dvgDrones = new DataGridView();
-            Название = new DataGridViewTextBoxColumn();
-            Номер = new DataGridViewTextBoxColumn();
-            Тип = new DataGridViewTextBoxColumn();
-            Состояние = new DataGridViewTextBoxColumn();
+            dgvDrones = new DataGridView();
             panelMaintenance = new Panel();
             lblCountMaintenance = new Label();
             lblMaintenanceDrones = new Label();
@@ -63,7 +70,7 @@
             panelSidebar.SuspendLayout();
             panelMain.SuspendLayout();
             panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dvgDrones).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDrones).BeginInit();
             panelMaintenance.SuspendLayout();
             panelReady.SuspendLayout();
             panelTotal.SuspendLayout();
@@ -175,16 +182,123 @@
             // panel6
             // 
             panel6.BackColor = SystemColors.ButtonHighlight;
+            panel6.Controls.Add(label6);
+            panel6.Controls.Add(label5);
+            panel6.Controls.Add(label4);
+            panel6.Controls.Add(label3);
+            panel6.Controls.Add(label2);
+            panel6.Controls.Add(label1);
+            panel6.Controls.Add(txtStatus);
+            panel6.Controls.Add(txtInventoryNumber);
+            panel6.Controls.Add(txtType);
+            panel6.Controls.Add(txtModel);
+            panel6.Controls.Add(txtName);
+            panel6.Controls.Add(txtId);
             panel6.Controls.Add(btnDeleteDrone);
-            panel6.Controls.Add(btnEditDrone);
             panel6.Controls.Add(lblChoose);
             panel6.Controls.Add(txtSearch);
             panel6.Controls.Add(lblList);
-            panel6.Controls.Add(dvgDrones);
+            panel6.Controls.Add(dgvDrones);
             panel6.Location = new Point(56, 257);
             panel6.Name = "panel6";
             panel6.Size = new Size(861, 434);
             panel6.TabIndex = 6;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(712, 360);
+            label6.Name = "label6";
+            label6.Size = new Size(52, 20);
+            label6.TabIndex = 17;
+            label6.Text = "Статус";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(550, 360);
+            label5.Name = "label5";
+            label5.Size = new Size(156, 20);
+            label5.TabIndex = 16;
+            label5.Text = "Инвентарный номер";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(451, 353);
+            label4.Name = "label4";
+            label4.Size = new Size(35, 20);
+            label4.TabIndex = 15;
+            label4.Text = "Тип";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(311, 353);
+            label3.Name = "label3";
+            label3.Size = new Size(63, 20);
+            label3.TabIndex = 14;
+            label3.Text = "Модель";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(170, 353);
+            label2.Name = "label2";
+            label2.Size = new Size(77, 20);
+            label2.TabIndex = 13;
+            label2.Text = "Название";
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(16, 353);
+            label1.Name = "label1";
+            label1.Size = new Size(22, 20);
+            label1.TabIndex = 12;
+            label1.Text = "Id";
+            // 
+            // txtStatus
+            // 
+            txtStatus.Location = new Point(712, 330);
+            txtStatus.Name = "txtStatus";
+            txtStatus.Size = new Size(125, 27);
+            txtStatus.TabIndex = 11;
+            // 
+            // txtInventoryNumber
+            // 
+            txtInventoryNumber.Location = new Point(571, 330);
+            txtInventoryNumber.Name = "txtInventoryNumber";
+            txtInventoryNumber.Size = new Size(125, 27);
+            txtInventoryNumber.TabIndex = 10;
+            // 
+            // txtType
+            // 
+            txtType.Location = new Point(451, 388);
+            txtType.Name = "txtType";
+            txtType.Size = new Size(125, 27);
+            txtType.TabIndex = 9;
+            // 
+            // txtModel
+            // 
+            txtModel.Location = new Point(311, 388);
+            txtModel.Name = "txtModel";
+            txtModel.Size = new Size(125, 27);
+            txtModel.TabIndex = 8;
+            // 
+            // txtName
+            // 
+            txtName.Location = new Point(170, 388);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(125, 27);
+            txtName.TabIndex = 7;
+            // 
+            // txtId
+            // 
+            txtId.Location = new Point(16, 388);
+            txtId.Name = "txtId";
+            txtId.Size = new Size(125, 27);
+            txtId.TabIndex = 6;
             // 
             // btnDeleteDrone
             // 
@@ -193,26 +307,12 @@
             btnDeleteDrone.FlatStyle = FlatStyle.Flat;
             btnDeleteDrone.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnDeleteDrone.ForeColor = Color.Red;
-            btnDeleteDrone.Location = new Point(161, 371);
+            btnDeleteDrone.Location = new Point(741, 379);
             btnDeleteDrone.Name = "btnDeleteDrone";
             btnDeleteDrone.Size = new Size(117, 44);
             btnDeleteDrone.TabIndex = 5;
             btnDeleteDrone.Text = "Удалить";
             btnDeleteDrone.UseVisualStyleBackColor = false;
-            // 
-            // btnEditDrone
-            // 
-            btnEditDrone.BackColor = Color.FromArgb(192, 255, 255);
-            btnEditDrone.FlatAppearance.BorderSize = 0;
-            btnEditDrone.FlatStyle = FlatStyle.Flat;
-            btnEditDrone.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnEditDrone.ForeColor = Color.Blue;
-            btnEditDrone.Location = new Point(38, 371);
-            btnEditDrone.Name = "btnEditDrone";
-            btnEditDrone.Size = new Size(117, 44);
-            btnEditDrone.TabIndex = 4;
-            btnEditDrone.Text = "Изменить";
-            btnEditDrone.UseVisualStyleBackColor = false;
             // 
             // lblChoose
             // 
@@ -244,59 +344,30 @@
             lblList.TabIndex = 1;
             lblList.Text = "Список Аппаратов";
             // 
-            // dvgDrones
+            // dgvDrones
             // 
-            dvgDrones.AllowUserToAddRows = false;
-            dvgDrones.AllowUserToOrderColumns = true;
-            dvgDrones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.LightCyan;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dvgDrones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            dvgDrones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dvgDrones.Columns.AddRange(new DataGridViewColumn[] { Название, Номер, Тип, Состояние });
-            dvgDrones.EnableHeadersVisualStyles = false;
-            dvgDrones.Location = new Point(33, 79);
-            dvgDrones.Name = "dvgDrones";
-            dvgDrones.ReadOnly = true;
-            dvgDrones.RowHeadersVisible = false;
-            dvgDrones.RowHeadersWidth = 51;
-            dvgDrones.RowTemplate.Height = 40;
-            dvgDrones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dvgDrones.Size = new Size(803, 206);
-            dvgDrones.TabIndex = 0;
-            // 
-            // Название
-            // 
-            Название.HeaderText = "Название";
-            Название.MinimumWidth = 6;
-            Название.Name = "Название";
-            Название.ReadOnly = true;
-            // 
-            // Номер
-            // 
-            Номер.HeaderText = "Номер";
-            Номер.MinimumWidth = 6;
-            Номер.Name = "Номер";
-            Номер.ReadOnly = true;
-            // 
-            // Тип
-            // 
-            Тип.HeaderText = "Тип";
-            Тип.MinimumWidth = 6;
-            Тип.Name = "Тип";
-            Тип.ReadOnly = true;
-            // 
-            // Состояние
-            // 
-            Состояние.HeaderText = "Состояние";
-            Состояние.MinimumWidth = 6;
-            Состояние.Name = "Состояние";
-            Состояние.ReadOnly = true;
+            dgvDrones.AllowUserToAddRows = false;
+            dgvDrones.AllowUserToOrderColumns = true;
+            dgvDrones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.LightCyan;
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvDrones.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvDrones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvDrones.EnableHeadersVisualStyles = false;
+            dgvDrones.Location = new Point(33, 79);
+            dgvDrones.Name = "dgvDrones";
+            dgvDrones.ReadOnly = true;
+            dgvDrones.RowHeadersVisible = false;
+            dgvDrones.RowHeadersWidth = 51;
+            dgvDrones.RowTemplate.Height = 40;
+            dgvDrones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvDrones.Size = new Size(803, 206);
+            dgvDrones.TabIndex = 0;
             // 
             // panelMaintenance
             // 
@@ -443,7 +514,7 @@
             panelMain.PerformLayout();
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dvgDrones).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dgvDrones).EndInit();
             panelMaintenance.ResumeLayout(false);
             panelMaintenance.PerformLayout();
             panelReady.ResumeLayout(false);
@@ -475,15 +546,22 @@
         private Label lblCountTotal;
         private Label lblCountMaintenance;
         private Panel panel6;
-        private DataGridView dvgDrones;
-        private DataGridViewTextBoxColumn Название;
-        private DataGridViewTextBoxColumn Номер;
-        private DataGridViewTextBoxColumn Тип;
-        private DataGridViewTextBoxColumn Состояние;
+        private DataGridView dgvDrones;
         private TextBox txtSearch;
         private Label lblList;
         private Label lblChoose;
         private Button btnDeleteDrone;
-        private Button btnEditDrone;
+        private TextBox txtStatus;
+        private TextBox txtInventoryNumber;
+        private TextBox txtType;
+        private TextBox txtModel;
+        private TextBox txtName;
+        private TextBox txtId;
+        private Label label2;
+        private Label label1;
+        private Label label6;
+        private Label label5;
+        private Label label4;
+        private Label label3;
     }
 }
