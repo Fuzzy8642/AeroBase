@@ -24,7 +24,9 @@
 
         <StackPanel Spacing="4">
             <TextBlock Text="Тип" FontSize="12" Foreground="#718198"/>
-            <ComboBox SelectedItem="{Binding Type}" HorizontalAlignment="Stretch">
+            <ComboBox SelectedValue="{Binding Type}" 
+                      SelectedValueBinding="{Binding Content}" 
+                      HorizontalAlignment="Stretch">
                 <ComboBoxItem Content="Квадрокоптер"/>
                 <ComboBoxItem Content="Самолётный"/>
             </ComboBox>
@@ -32,7 +34,9 @@
 
         <StackPanel Spacing="4">
             <TextBlock Text="Состояние" FontSize="12" Foreground="#718198"/>
-            <ComboBox SelectedItem="{Binding Status}" HorizontalAlignment="Stretch">
+            <ComboBox SelectedValue="{Binding Status}" 
+                      SelectedValueBinding="{Binding Content}" 
+                      HorizontalAlignment="Stretch">
                 <ComboBoxItem Content="Исправен"/>
                 <ComboBoxItem Content="На ТО"/>
             </ComboBox>
