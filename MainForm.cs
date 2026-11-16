@@ -21,7 +21,7 @@ namespace AeroBase
             });
             drones.Add(new Drone
             {
-                Id = 1,
+                Id = 2,
                 Name = "Учебный №2",
                 Model = "Самолётный",
                 Type = "Самолётный",
@@ -30,7 +30,7 @@ namespace AeroBase
             });
             drones.Add(new Drone
             {
-                Id = 1,
+                Id = 3,
                 Name = "Учебный №3",
                 Model = "Мультироторный",
                 Type = "Квадрокоптер",
@@ -39,7 +39,7 @@ namespace AeroBase
             });
             drones.Add(new Drone
             {
-                Id = 1,
+                Id = 4,
                 Name = "Учебный №4",
                 Model = "Мультироторный",
                 Type = "Квадрокоптер",
@@ -48,7 +48,7 @@ namespace AeroBase
             });
             drones.Add(new Drone
             {
-                Id = 1,
+                Id = 5,
                 Name = "Учебный №5",
                 Model = "Мультироторный",
                 Type = "Квадрокоптер",
@@ -62,8 +62,14 @@ namespace AeroBase
 
         private void RefreshTable()
         {
+            string searchText = txtSearch.Text.Trim().ToLower();
+
+            var filteredDrones = string.IsNullOrEmpty(searchText)
+                ? drones
+                : drones.Where(d => d.Name.ToLower().Contains(searchText)).ToList();
+
             dgvDrones.DataSource = null;
-            dgvDrones.DataSource = drones;
+            dgvDrones.DataSource = filteredDrones;
 
             UpdateTotalDrones();
             UpdateReady();
@@ -90,17 +96,63 @@ namespace AeroBase
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            dgvDrones.RowTemplate.Height = 45;
-            dgvDrones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvDrones.ColumnHeadersHeight = 50;
-            dgvDrones.BorderStyle = BorderStyle.None;
-            int totalHeight = dgvDrones.ColumnHeadersHeight;
-            foreach (DataGridViewRow row in dgvDrones.Rows)
+            dgvDrones.ScrollBars = ScrollBars.Vertical;
+
+            // Считаем высоту: шапка + высота 3 строк + небольшой запас на рамку (2-4 пикселя)
+            int headerHeight = dgvDrones.ColumnHeadersVisible ? dgvDrones.ColumnHeadersHeight : 0;
+            int rowHeight = dgvDrones.RowTemplate.Height;
+
+            dgvDrones.Height = headerHeight + (rowHeight * 3) + 3;
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            RefreshTable();
+        }
+
+        private void dgvDrones_SelectionChanged(object sender, EventArgs e)
+        {
+            if (dgvDrones.CurrentRow?.DataBoundItem is Drone selectedDrone)
             {
-                totalHeight += row.Height;
+                txtId.Text = selectedDrone.Id.ToString();
+                txtName.Text = selectedDrone.Name;
+                txtModel.Text = selectedDrone.Model;
+                txtType.Text = selectedDrone.Type;
+                txtInventoryNumber.Text = selectedDrone.InventoryNumber;
+                txtStatus.Text = selectedDrone.Status;
             }
-            dgvDrones.Height = totalHeight;
-            dgvDrones.ClearSelection();
+        }
+
+        private void btnEditDrone_Click(object sender, EventArgs e)
+        {
+            if (dgvDrones.CurrentRow?.DataBoundItem is not Drone selectedDrone)
+            {
+                MessageBox.Show("Выберите дрон из таблицы для редактирования!");
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtName.Text) || string.IsNullOrWhiteSpace(txtInventoryNumber.Text))
+            {
+                MessageBox.Show("Введите название и инвентарный номер!");
+                return;
+            }
+
+            if (!int.TryParse(txtId.Text, out int newId))
+            {
+                MessageBox.Show("Введите корректный Id!");
+                return;
+            }
+
+            // Обновляем свойства выбранного объекта
+            selectedDrone.Id = newId;
+            selectedDrone.Name = txtName.Text.Trim();
+            selectedDrone.Model = txtModel.Text.Trim();
+            selectedDrone.Type = txtType.Text.Trim();
+            selectedDrone.InventoryNumber = txtInventoryNumber.Text.Trim();
+            selectedDrone.Status = txtStatus.Text.Trim();
+
+            RefreshTable();
+            MessageBox.Show("Данные успешно обновлены!");
         }
 
         private void btnAddDrone_Click(object sender, EventArgs e)
@@ -131,7 +183,7 @@ namespace AeroBase
             txtId.Clear(); txtName.Clear(); txtModel.Clear(); txtType.Clear(); txtInventoryNumber.Clear(); txtStatus.Clear();
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
+        private void btnDeleteDrone_Click(object sender, EventArgs e)
         {
             Drone? selectedDrone =
         dgvDrones.CurrentRow?.DataBoundItem as Drone;
@@ -174,6 +226,6 @@ namespace AeroBase
             }
         }
 
-        
+
     }
 }
