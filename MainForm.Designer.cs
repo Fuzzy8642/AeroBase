@@ -37,7 +37,10 @@
             btnOverview = new Button();
             lblLogo = new Label();
             panelMain = new Panel();
+            btnTestConnection = new Button();
             panel6 = new Panel();
+            btnSearch = new Button();
+            btnEditDrone = new Button();
             label6 = new Label();
             label5 = new Label();
             label4 = new Label();
@@ -67,7 +70,6 @@
             btnAddDrone = new Button();
             lblDescription = new Label();
             lblPageTitle = new Label();
-            btnEditDrone = new Button();
             panelSidebar.SuspendLayout();
             panelMain.SuspendLayout();
             panel6.SuspendLayout();
@@ -172,6 +174,7 @@
             // panelMain
             // 
             panelMain.BackColor = Color.FromArgb(244, 247, 251);
+            panelMain.Controls.Add(btnTestConnection);
             panelMain.Controls.Add(panel6);
             panelMain.Controls.Add(panelMaintenance);
             panelMain.Controls.Add(panelReady);
@@ -186,9 +189,20 @@
             panelMain.Size = new Size(850, 527);
             panelMain.TabIndex = 2;
             // 
+            // btnTestConnection
+            // 
+            btnTestConnection.Location = new Point(348, 34);
+            btnTestConnection.Name = "btnTestConnection";
+            btnTestConnection.Size = new Size(124, 23);
+            btnTestConnection.TabIndex = 7;
+            btnTestConnection.Text = "Проверить БД";
+            btnTestConnection.UseVisualStyleBackColor = true;
+            btnTestConnection.Click += btnTestConnection_Click;
+            // 
             // panel6
             // 
             panel6.BackColor = SystemColors.ButtonHighlight;
+            panel6.Controls.Add(btnSearch);
             panel6.Controls.Add(btnEditDrone);
             panel6.Controls.Add(label6);
             panel6.Controls.Add(label5);
@@ -212,6 +226,31 @@
             panel6.Name = "panel6";
             panel6.Size = new Size(753, 326);
             panel6.TabIndex = 6;
+            // 
+            // btnSearch
+            // 
+            btnSearch.Location = new Point(472, 20);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(75, 23);
+            btnSearch.TabIndex = 19;
+            btnSearch.Text = "Поиск";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += buttonSearch_Click;
+            // 
+            // btnEditDrone
+            // 
+            btnEditDrone.BackColor = Color.FromArgb(192, 224, 255);
+            btnEditDrone.FlatAppearance.BorderSize = 0;
+            btnEditDrone.FlatStyle = FlatStyle.Flat;
+            btnEditDrone.Font = new Font("Courier New", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
+            btnEditDrone.ForeColor = Color.Blue;
+            btnEditDrone.Location = new Point(535, 292);
+            btnEditDrone.Name = "btnEditDrone";
+            btnEditDrone.Size = new Size(102, 33);
+            btnEditDrone.TabIndex = 18;
+            btnEditDrone.Text = "Изменить";
+            btnEditDrone.UseVisualStyleBackColor = false;
+            btnEditDrone.Click += btnEditDrone_Click;
             // 
             // label6
             // 
@@ -367,6 +406,7 @@
             // 
             dgvDrones.AllowUserToAddRows = false;
             dgvDrones.AllowUserToOrderColumns = true;
+            dgvDrones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.LightCyan;
             dataGridViewCellStyle1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -521,21 +561,6 @@
             lblPageTitle.TabIndex = 0;
             lblPageTitle.Text = "Реестр БПЛА";
             // 
-            // btnEditDrone
-            // 
-            btnEditDrone.BackColor = Color.FromArgb(192, 224, 255);
-            btnEditDrone.FlatAppearance.BorderSize = 0;
-            btnEditDrone.FlatStyle = FlatStyle.Flat;
-            btnEditDrone.Font = new Font("Courier New", 9F, FontStyle.Bold, GraphicsUnit.Point, 204);
-            btnEditDrone.ForeColor = Color.Blue;
-            btnEditDrone.Location = new Point(535, 292);
-            btnEditDrone.Name = "btnEditDrone";
-            btnEditDrone.Size = new Size(102, 33);
-            btnEditDrone.TabIndex = 18;
-            btnEditDrone.Text = "Изменить";
-            btnEditDrone.UseVisualStyleBackColor = false;
-            btnEditDrone.Click += btnEditDrone_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -606,5 +631,7 @@
         private Label label4;
         private Label label3;
         private Button btnEditDrone;
+        private Button btnTestConnection;
+        private Button btnSearch;
     }
 }

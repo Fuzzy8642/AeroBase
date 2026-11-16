@@ -1,60 +1,24 @@
 using System.ComponentModel.Design.Serialization;
+using Npgsql;
 
 namespace AeroBase
 {
     public partial class MainForm : Form
     {
-        private readonly List<Drone> drones = new();
+        private List<Drone> drones = new();
         private readonly List<Part> parts = new();
+        private DroneRepository repository;
+        private string connectionString =
+        "Host=localhost;" +
+        "Port=5432;" +
+        "Database=aerobase;" +
+        "Username=postgres;" +
+        "Password=80085";
         public MainForm()
         {
             InitializeComponent();
 
-            drones.Add(new Drone
-            {
-                Id = 1,
-                Name = "Учебный №1",
-                Model = "Мультироторный",
-                Type = "Квадрокоптер",
-                InventoryNumber = "UAV-001",
-                Status = "Исправен"
-            });
-            drones.Add(new Drone
-            {
-                Id = 2,
-                Name = "Учебный №2",
-                Model = "Самолётный",
-                Type = "Самолётный",
-                InventoryNumber = "UAV-002",
-                Status = "На ТО"
-            });
-            drones.Add(new Drone
-            {
-                Id = 3,
-                Name = "Учебный №3",
-                Model = "Мультироторный",
-                Type = "Квадрокоптер",
-                InventoryNumber = "UAV-003",
-                Status = "Исправен"
-            });
-            drones.Add(new Drone
-            {
-                Id = 4,
-                Name = "Учебный №4",
-                Model = "Мультироторный",
-                Type = "Квадрокоптер",
-                InventoryNumber = "UAV-004",
-                Status = "Исправен"
-            });
-            drones.Add(new Drone
-            {
-                Id = 5,
-                Name = "Учебный №5",
-                Model = "Мультироторный",
-                Type = "Квадрокоптер",
-                InventoryNumber = "UAV-005",
-                Status = "Исправен"
-            });
+            repository = new DroneRepository(connectionString);
             RefreshTable();
         }
 
@@ -62,19 +26,27 @@ namespace AeroBase
 
         private void RefreshTable()
         {
-            string searchText = txtSearch.Text.Trim().ToLower();
+            try
+            {
+                drones = repository.GetAll();
 
-            var filteredDrones = string.IsNullOrEmpty(searchText)
-                ? drones.ToList()
-                : drones.Where(d => d.Name.ToLower().Contains(searchText)).ToList();
+                dgvDrones.DataSource = null;
+                dgvDrones.DataSource = drones;
 
-            dgvDrones.ClearSelection();
-            dgvDrones.CurrentCell = null;
-            dgvDrones.DataSource = new BindingSource { DataSource = filteredDrones };
+                if (dgvDrones.Columns["Id"] != null)
+                    dgvDrones.Columns["Id"].Visible = false;
 
-            UpdateTotalDrones();
-            UpdateReady();
-            UpdateMaintenance();
+                UpdateStatistics();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка загрузки: " + ex.Message);
+            }
+        }
+
+        private void UpdateStatistics()
+        {
+            lblCountTotal.Text = drones.Count.ToString();
         }
 
         private void UpdateTotalDrones()
@@ -164,30 +136,38 @@ namespace AeroBase
                 MessageBox.Show("Введите название и инвентарный номер!!");
                 return;
             }
-            if (!int.TryParse(txtId.Text, out int Id))
-            {
-                MessageBox.Show("Введите корректный айди!");
-                return;
-            }
 
             Drone newDrone = new()
             {
-                Id = Id,
                 Name = txtName.Text.Trim(),
                 Model = txtModel.Text.Trim(),
                 Type = txtType.Text.Trim(),
                 InventoryNumber = txtInventoryNumber.Text.Trim(),
                 Status = txtStatus.Text.Trim(),
             };
-            drones.Add(newDrone);
-            RefreshTable();
-            txtId.Clear(); txtName.Clear(); txtModel.Clear(); txtType.Clear(); txtInventoryNumber.Clear(); txtStatus.Clear();
+
+            try
+            {
+                repository.Add(newDrone);
+                RefreshTable();
+                txtId.Clear(); txtName.Clear(); txtModel.Clear(); txtType.Clear(); txtInventoryNumber.Clear(); txtStatus.Clear();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка добавления: " + ex.Message);
+            }
         }
 
         private void btnDeleteDrone_Click(object sender, EventArgs e)
         {
-            Drone? selectedDrone =
-        dgvDrones.CurrentRow?.DataBoundItem as Drone;
+            if (dgvDrones.CurrentRow == null)
+            {
+                MessageBox.Show("Выберите дрон!");
+                return;
+            }
+
+            Drone selectedDrone =
+                dgvDrones.CurrentRow.DataBoundItem as Drone;
 
             if (selectedDrone == null)
             {
@@ -196,13 +176,26 @@ namespace AeroBase
             }
 
             DialogResult answer = MessageBox.Show(
-                "Удалить выбранный дрон?", "Подтверждение",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                "Удалить дрон «" + selectedDrone.Name + "»?",
+                "Подтверждение",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-            if (answer == DialogResult.Yes)
+            if (answer != DialogResult.Yes)
+                return;
+
+            try
             {
-                drones.Remove(selectedDrone);
+                bool deleted = repository.Delete(selectedDrone.Id);
+
+                if (!deleted)
+                    MessageBox.Show("Дрон уже отсутствует в базе.");
+
                 RefreshTable();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка удаления: " + ex.Message);
             }
         }
 
@@ -227,6 +220,39 @@ namespace AeroBase
             }
         }
 
+        private void btnTestConnection_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (NpgsqlConnection connection =
+                    new NpgsqlConnection(connectionString))
+                {
+                    connection.Open();
+                    MessageBox.Show("Подключение успешно!");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ошибка подключения: " + ex.Message);
+            }
+        }
 
+        private void buttonSearch_Click(object sender, EventArgs e)
+        {
+            string text = txtSearch.Text.Trim();
+            List<Drone> found = new List<Drone>();
+
+            foreach (Drone drone in drones)
+            {
+                if (drone.Name.IndexOf(
+                    text, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    found.Add(drone);
+                }
+            }
+
+            dgvDrones.DataSource = null;
+            dgvDrones.DataSource = found;
+        }
     }
 }
