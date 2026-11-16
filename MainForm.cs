@@ -65,11 +65,12 @@ namespace AeroBase
             string searchText = txtSearch.Text.Trim().ToLower();
 
             var filteredDrones = string.IsNullOrEmpty(searchText)
-                ? drones
+                ? drones.ToList()
                 : drones.Where(d => d.Name.ToLower().Contains(searchText)).ToList();
 
-            dgvDrones.DataSource = null;
-            dgvDrones.DataSource = filteredDrones;
+            dgvDrones.ClearSelection();
+            dgvDrones.CurrentCell = null;
+            dgvDrones.DataSource = new BindingSource { DataSource = filteredDrones };
 
             UpdateTotalDrones();
             UpdateReady();
